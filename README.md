@@ -36,18 +36,21 @@ This script installs modern versions of all of them via Homebrew and configures 
 | Tool | Apple ships | You get |
 |------|------------|---------|
 | rsync | 2.6.9 (2006) | 3.x |
-| curl | old, LibreSSL-linked | latest, OpenSSL-linked |
+| curl | old, LibreSSL-linked | latest, OpenSSL-linked (not added to PATH*) |
 | vim | old vi | Vim 9.x |
 | git | Xcode git (lags behind) | latest upstream |
-| openssh | Apple's patched fork | upstream OpenSSH |
+| openssh | Apple's patched fork | upstream OpenSSH (not added to PATH*) |
 | gzip | old | latest |
 | zip / unzip | ancient | latest |
+
+*\*curl and openssh are installed but not added to PATH. Brew curl uses OpenSSL instead of macOS SecureTransport, which breaks tools relying on system certificate handling. Brew openssh lacks macOS Keychain integration. Use them explicitly via `$(brew --prefix)/opt/curl/bin/curl` and `$(brew --prefix)/opt/openssh/bin/ssh`.*
 
 ### Extras
 
 | Tool | Notes |
 |------|-------|
 | wget | Apple doesn't ship it at all |
+| gh | GitHub CLI for PRs, issues, and repo management |
 
 ## Install
 
