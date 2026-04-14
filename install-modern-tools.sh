@@ -102,6 +102,10 @@ PACKAGES=(
   screen
 
   # curl: Apple ships older LibreSSL-linked curl; brew gives OpenSSL + latest
+  # NOTE: installed but NOT added to PATH by default. Putting brew curl
+  # ahead of system curl breaks tools that rely on macOS SecureTransport
+  # certificate handling (e.g., Claude Code). Use $(brew --prefix)/opt/curl/bin/curl
+  # explicitly when you need the newer version.
   curl
 
   # vim: Apple ships old "vi" with minimal features
@@ -111,6 +115,9 @@ PACKAGES=(
   git
 
   # openssh: Apple ships a patched fork, often behind on features
+  # NOTE: installed but NOT added to PATH by default. Brew openssh lacks
+  # macOS Keychain integration for SSH keys. Use $(brew --prefix)/opt/openssh/bin/ssh
+  # explicitly when you need the newer version.
   openssh
 
   # gzip: Apple ships old gzip
@@ -172,8 +179,10 @@ export PATH="${BREW_PREFIX}/opt/gnu-which/libexec/gnubin:\$PATH"
 export PATH="${BREW_PREFIX}/opt/make/libexec/gnubin:\$PATH"
 export PATH="${BREW_PREFIX}/opt/gnu-indent/libexec/gnubin:\$PATH"
 export PATH="${BREW_PREFIX}/opt/gnu-getopt/bin:\$PATH"
-export PATH="${BREW_PREFIX}/opt/curl/bin:\$PATH"
-export PATH="${BREW_PREFIX}/opt/openssh/bin:\$PATH"
+# curl and openssh intentionally omitted: brew curl breaks tools
+# relying on macOS SecureTransport; brew openssh lacks Keychain support.
+# Use them explicitly: ${BREW_PREFIX}/opt/curl/bin/curl
+#                      ${BREW_PREFIX}/opt/openssh/bin/ssh
 export PATH="${BREW_PREFIX}/opt/rsync/bin:\$PATH"
 export PATH="${BREW_PREFIX}/opt/unzip/bin:\$PATH"
 export PATH="${BREW_PREFIX}/opt/zip/bin:\$PATH"
