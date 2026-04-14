@@ -136,6 +136,9 @@ PACKAGES=(
   # ── Extras (not GPL-frozen but commonly wanted) ──
   # wget: Apple doesn't ship it at all
   wget
+
+  # gh: GitHub CLI for PRs, issues, and repo management
+  gh
 )
 
 for pkg in "${PACKAGES[@]}"; do
