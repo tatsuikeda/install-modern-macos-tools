@@ -217,12 +217,16 @@ fi
 
 # bash: .bash_profile is loaded for login shells on macOS (Terminal.app
 # and iTerm2 open login shells by default). .bashrc is loaded for
-# non-login interactive shells. Write to whichever exists, preferring
-# .bash_profile. If the user has both, write to both.
+# non-login interactive shells. Write to whichever exists. If the user
+# has both, write to both. If bash is the login shell but neither file
+# exists, create .bashrc.
 if [[ -f "$HOME/.bash_profile" ]]; then
   RC_FILES+=("$HOME/.bash_profile")
 fi
 if [[ -f "$HOME/.bashrc" ]]; then
+  RC_FILES+=("$HOME/.bashrc")
+fi
+if [[ "${SHELL:-}" == */bash ]] && [[ ! -f "$HOME/.bash_profile" ]] && [[ ! -f "$HOME/.bashrc" ]]; then
   RC_FILES+=("$HOME/.bashrc")
 fi
 
