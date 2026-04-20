@@ -99,6 +99,23 @@ awk --version    # GNU Awk
 - macOS
 - [Homebrew](https://brew.sh)
 
+## Optional: keep these tools fresh automatically
+
+This script is one-shot: it installs the latest versions today and stops there. To keep them updated without manually running `brew upgrade`, you can use [`brew autoupdate`](https://github.com/Homebrew/homebrew-autoupdate), which runs `brew update` (and optionally `brew upgrade`) on a schedule via `launchd`.
+
+```bash
+brew tap homebrew/autoupdate
+brew autoupdate start 86400 --upgrade --cleanup --immediate
+```
+
+That runs every 24 hours, upgrades outdated formulae, and cleans up old versions. Adjust the interval (in seconds) to taste.
+
+**Why you might want this:** these tools age out of date the same way macOS's bundled versions did. Without periodic upgrades you'll drift behind on security patches and bug fixes.
+
+**Why you might NOT want this:** silent background upgrades can break things you depend on. For example, a brew upgrade can swap out a Node.js version that other tools (like Claude Code installed under a specific Node) rely on, or update a package whose new behavior conflicts with your workflow. If you depend on stability, running `brew upgrade` manually on your own schedule is safer.
+
+To stop it later: `brew autoupdate stop`. To remove entirely: `brew autoupdate delete`.
+
 ## License
 
 MIT
