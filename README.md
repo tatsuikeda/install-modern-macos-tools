@@ -2,13 +2,33 @@
 
 One script to replace every outdated tool that Apple ships on macOS.
 
-## Why
+## Why Apple's tools are old
 
 In 2007, the GNU project moved most of their tools from GPLv2 to GPLv3. The new license includes an anti-Tivoization clause that requires distributors to let users install modified versions of the software on their hardware. Apple's platform control strategy (code signing, secure boot, locked-down devices) is fundamentally incompatible with this requirement.
 
 Apple's solution: freeze every GNU tool at its last GPLv2 version and never update again. Some tools were replaced with BSD equivalents, others were simply left to rot. The result is that a stock macOS install ships coreutils, bash, make, grep, sed, and dozens of other tools that are 15 to 20 years out of date.
 
 This script installs modern versions of all of them via Homebrew and configures your PATH so they take priority.
+
+## Why that's a problem for you
+
+The history above explains why the tools are old. Here's why it actually bites:
+
+**Scripts from the internet just break.** Most examples you'll find on Stack Overflow, GitHub, and blog posts assume GNU tools, because that's what Linux ships. On stock macOS they fail in subtle, time-wasting ways:
+
+| You copy this | macOS does | Because |
+|---------------|------------|---------|
+| `sed -i 's/x/y/' file` | errors out | BSD sed needs `sed -i '' 's/x/y/' file` |
+| `readlink -f path` | unsupported flag | BSD readlink has no `-f` |
+| `date -d "yesterday"` | errors out | BSD date uses `-v-1d` instead |
+| `grep -P '\d+'` | unsupported flag | BSD grep has no PCRE |
+| `find . -printf '%p\n'` | unsupported flag | BSD find has no `-printf` |
+
+**Parity with your Linux servers.** If you build on a Mac and deploy to Linux, matching toolchains means a script behaves the same in both places instead of passing locally and breaking in CI or production.
+
+**Bash 3.2 is genuinely crippling.** Apple is stuck on the last GPLv2 release from 2007, so you get no associative arrays, no `mapfile`/`readarray`, no `**` globstar, and no `${var^^}` case conversion. Anyone writing real bash hits that wall fast.
+
+**It's capability, not just freshness.** GNU grep gives you `-P` (PCRE), GNU awk adds true multidimensional arrays and a pile of extensions, and GNU coreutils expose far more flags than their BSD counterparts.
 
 ## What gets installed
 
