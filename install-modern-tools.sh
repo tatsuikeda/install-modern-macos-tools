@@ -139,6 +139,21 @@ PACKAGES=(
 
   # gh: GitHub CLI for PRs, issues, and repo management
   gh
+
+  # tree: directory tree viewer Apple doesn't ship
+  tree
+
+  # jq: command-line JSON processor (not shipped)
+  jq
+
+  # yq: command-line YAML/JSON/XML processor (not shipped)
+  yq
+
+  # htop: interactive process viewer, far better than Apple's top
+  htop
+
+  # tmux: terminal multiplexer, modern alternative to screen
+  tmux
 )
 
 for pkg in "${PACKAGES[@]}"; do

@@ -71,6 +71,11 @@ The history above explains why the tools are old. Here's why it actually bites:
 |------|-------|
 | wget | Apple doesn't ship it at all |
 | gh | GitHub CLI for PRs, issues, and repo management |
+| tree | Directory tree viewer Apple doesn't ship |
+| jq | Command-line JSON processor (not shipped) |
+| yq | Command-line YAML/JSON/XML processor (not shipped) |
+| htop | Interactive process viewer, far better than Apple's top |
+| tmux | Terminal multiplexer, modern alternative to screen |
 
 ## Install
 
