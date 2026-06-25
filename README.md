@@ -117,6 +117,11 @@ sed --version    # GNU sed
 make --version   # GNU Make 4.x
 find --version   # GNU findutils
 awk --version    # GNU Awk
+tree --version   # prints a version
+jq --version     # prints a version
+yq --version     # prints a version
+htop --version   # prints a version
+tmux -V          # prints a version
 ```
 
 ## Requirements
