@@ -65,6 +65,19 @@ The history above explains why the tools are old. Here's why it actually bites:
 
 *\*curl and openssh are installed but not added to PATH. Brew curl uses OpenSSL instead of macOS SecureTransport, which breaks tools relying on system certificate handling. Brew openssh lacks macOS Keychain integration. Use them explicitly via `$(brew --prefix)/opt/curl/bin/curl` and `$(brew --prefix)/opt/openssh/bin/ssh`.*
 
+> ### ⚠️ Important: rsync breaks Xcode / App Store Connect uploads
+>
+> This script puts Homebrew's rsync (3.x) ahead of Apple's on your PATH, and that **will break Xcode's IPA export and TestFlight / App Store Connect uploads**. Xcode's export shells out to rsync, and macOS 15 ships Apple's BSD `openrsync` as `/usr/bin/rsync` (Apple won't ship the GPLv3 rsync 3.x). Apple's helper passes `--extended-attributes`, which a Homebrew rsync 3.x rejects, so the export dies as a useless generic **`Copy failed`** with nothing pointing at rsync. This can cost you hours.
+>
+> **The fix:** force Apple's system rsync first on PATH around the Xcode export / upload step:
+>
+> ```make
+> testflight:
+> 	export PATH="/usr/bin:$$PATH"; xcodebuild -exportArchive ...
+> ```
+>
+> That one line was the entire wall. Confirm what you're getting with `which rsync` (brew) versus `/usr/bin/rsync --version` (Apple's openrsync). A working example lives in `apple-dev-guide-2026/bin/ship-testflight`.
+
 ### Extras
 
 | Tool | Notes |

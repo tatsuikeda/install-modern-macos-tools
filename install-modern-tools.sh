@@ -89,7 +89,12 @@ PACKAGES=(
   make
 
   # ── Other stale tools ──
-  # rsync: Apple ships 2.6.9 (2006). Modern: 3.x
+  # rsync: Apple ships BSD openrsync as /usr/bin/rsync. Modern: 3.x
+  # WARNING: brew rsync 3.x on PATH breaks Xcode IPA export / App Store
+  # Connect uploads (Apple's helper passes --extended-attributes, which
+  # 3.x rejects, failing as a generic "Copy failed"). For Xcode/App Store
+  # Connect work, force /usr/bin first: export PATH="/usr/bin:$PATH".
+  # See the rsync warning in README.md.
   rsync
 
   # less: Apple ships older less
@@ -201,6 +206,9 @@ export PATH="${BREW_PREFIX}/opt/gnu-getopt/bin:\$PATH"
 # relying on macOS SecureTransport; brew openssh lacks Keychain support.
 # Use them explicitly: ${BREW_PREFIX}/opt/curl/bin/curl
 #                      ${BREW_PREFIX}/opt/openssh/bin/ssh
+# rsync: this line shadows Apple's /usr/bin/rsync and WILL break Xcode
+# IPA export / App Store Connect uploads. For that work, force the system
+# rsync first: export PATH="/usr/bin:\$PATH". See README rsync warning.
 export PATH="${BREW_PREFIX}/opt/rsync/bin:\$PATH"
 export PATH="${BREW_PREFIX}/opt/unzip/bin:\$PATH"
 export PATH="${BREW_PREFIX}/opt/zip/bin:\$PATH"
