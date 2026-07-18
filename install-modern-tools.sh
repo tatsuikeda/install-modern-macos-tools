@@ -38,7 +38,10 @@ echo ""
 # man pages (vim, git, etc.). Fix ownership preemptively.
 
 if [[ -d "${BREW_PREFIX}/share/man" ]]; then
-  MAN_OWNER="$(stat -f '%u' "${BREW_PREFIX}/share/man")"
+  # Use Apple's BSD stat by absolute path: once this script has run, GNU
+  # coreutils' stat is first on PATH and does not understand `-f '%u'`
+  # (it reads -f as --file-system), which would break re-runs.
+  MAN_OWNER="$(/usr/bin/stat -f '%u' "${BREW_PREFIX}/share/man")"
   CURRENT_UID="$(id -u)"
   if [[ "$MAN_OWNER" != "$CURRENT_UID" ]]; then
     echo "==> Fixing ${BREW_PREFIX}/share/man ownership (needs sudo)..."
