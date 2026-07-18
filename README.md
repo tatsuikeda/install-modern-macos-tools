@@ -76,7 +76,7 @@ The history above explains why the tools are old. Here's why it actually bites:
 > 	export PATH="/usr/bin:$$PATH"; xcodebuild -exportArchive ...
 > ```
 >
-> That one line was the entire wall. Confirm what you're getting with `which rsync` (brew) versus `/usr/bin/rsync --version` (Apple's openrsync). A working example lives in `apple-dev-guide-2026/bin/ship-testflight`.
+> That one line was the entire wall. Confirm what you're getting with `which rsync` (brew) versus `/usr/bin/rsync --version` (Apple's openrsync).
 
 ### Extras
 
